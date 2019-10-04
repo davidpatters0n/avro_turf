@@ -5,11 +5,14 @@ class AvroTurf::ConfluentSchemaRegistry
 
   def initialize(url, logger: Logger.new($stdout), proxy: nil)
     @logger = logger
-    headers = {
-      "Content-Type" => CONTENT_TYPE
+    params = {
+      headers: {
+        "Content-Type" => CONTENT_TYPE
+      }
     }
-    headers[:proxy] = proxy if proxy&.present?
-    @connection = Excon.new(url, headers: headers)
+    params[:proxy] = proxy if proxy&.present?
+
+    @connection = Excon.new(url, params)
   end
 
   def fetch(id)
